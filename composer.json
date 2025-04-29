@@ -7,8 +7,9 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "cp -r build/* public_html/",
-            "cp build/.htaccess public_html/"
+            "php -r \"@mkdir('public_html', 0755, true);\"",
+            "php -r \"foreach (glob('build/*') as $file) { if (is_dir($file)) { @mkdir('public_html/'.basename($file), 0755, true); system('cp -r '.$file.'/* public_html/'.basename($file)); } else { copy($file, 'public_html/'.basename($file)); } }\"",
+            "php -r \"if (file_exists('build/.htaccess')) { copy('build/.htaccess', 'public_html/.htaccess'); }\""
         ]
     }
 } 
