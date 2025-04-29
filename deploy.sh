@@ -1,7 +1,25 @@
 #!/bin/bash
 
-# Copy all build files to public_html
-cp -r build/* public_html/
+echo "Starting deployment process..."
 
-# Copy .htaccess specifically (since it's hidden)
-cp build/.htaccess public_html/ 
+# Pull the latest changes from the repository
+git pull origin main
+
+# Install/update Composer dependencies
+composer install --no-interaction --prefer-dist --optimize-autoloader
+
+# Clear any caches if needed
+if [ -d "cache" ]; then
+    rm -rf cache/*
+    echo "Cache cleared"
+fi
+
+# Set proper permissions
+find . -type f -exec chmod 644 {} \;
+find . -type d -exec chmod 755 {} \;
+
+# If there are any database migrations, you can uncomment and modify these lines
+# echo "Running database migrations..."
+# php artisan migrate --force
+
+echo "Deployment completed successfully!" 
