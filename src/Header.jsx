@@ -18,7 +18,6 @@ const Header = () => {
         setOpen(false);
     };
     const [showSearch, setShowSearch] = useState(false);
-    const user = JSON.parse(localStorage.getItem("user")); // Get user from localStorage
     return (
         <>
             <div className="top-head">

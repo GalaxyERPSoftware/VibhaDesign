@@ -109,11 +109,11 @@ const Contect = () => {
                             <div className="contect-page-child">
                                 <div className="contect-page-child-inner-main">
                                     <h2>let's talk</h2>
-                                    <p>Have a question about a <a role="button" tabIndex="0">custom commission</a> or my 1-on-1 resin coaching services?
+                                    <p>Have a question about a <button type="button" className="link-button">custom commission</button> or my 1-on-1 resin coaching services?
                                         Whether you're interested in creating a bespoke resin piece, booking a workshop, or just need guidance, I'd love to hear from you!</p>
-                                    <p>Have a question about a <a role="button" tabIndex="0">custom commission</a> or my 1-on-1 resin coaching services?
+                                    <p>Have a question about a <button type="button" className="link-button">custom commission</button> or my 1-on-1 resin coaching services?
                                         Whether you're interested in creating a bespoke resin piece, booking a workshop, or just need guidance, I'd love to hear from you!</p>
-                                    <p>Have a question about a <a role="button" tabIndex="0">custom commission</a> or my 1-on-1 resin coaching services?
+                                    <p>Have a question about a <button type="button" className="link-button">custom commission</button> or my 1-on-1 resin coaching services?
                                         Whether you're interested in creating a bespoke resin piece, booking a workshop, or just need guidance, I'd love to hear from you!</p>
 
                                     <p>Fill out the form below or send an email to <a href="mailto:rengin@resinbyrengin.com">rengin@resinbyrengin.com</a>, and I'll get back to you as soon as possible.</p>
