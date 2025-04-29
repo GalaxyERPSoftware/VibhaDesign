@@ -7,10 +7,8 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "npm install",
-            "npm run build",
-            "chmod +x deploy.sh",
-            "./deploy.sh"
+            "cp -r build/* public_html/",
+            "cp build/.htaccess public_html/"
         ]
     }
 } 
