@@ -3,15 +3,7 @@ import React, { useState, useEffect } from 'react';
 const Category = () => {
     const [zoomedIndex, setZoomedIndex] = useState(null);
 
-    useEffect(() => {
-        // Default ma last image zoomed
-        setZoomedIndex(images.length - 1);
-    }, [images.length]);
-
-    const handleImageClick = (index) => {
-        setZoomedIndex(index === zoomedIndex ? null : index);
-    };
-
+    // Move images above useEffect
     const images = [
         'assets/img/cate3.jpg',
         'assets/img/cate2.jpg',
@@ -20,6 +12,15 @@ const Category = () => {
         'assets/img/cate2.jpg',
         'assets/img/cate1.png',
     ];
+
+    useEffect(() => {
+        // Default ma last image zoomed
+        setZoomedIndex(images.length - 1);
+    }, [images.length]);
+
+    const handleImageClick = (index) => {
+        setZoomedIndex(index === zoomedIndex ? null : index);
+    };
 
     const contentData = [
         {
