@@ -13,9 +13,6 @@ import Addcategory from './ADD/AddCategory';
 import Contact from './Contact';
 import Cart from './Cart';
 import SingleProduct from './VIEW/SingleProduct';
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

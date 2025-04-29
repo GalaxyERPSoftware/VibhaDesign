@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaWhatsapp } from "react-icons/fa6";
-import { IoLogoInstagram, IoBagSharp } from "react-icons/io5";
+import { IoLogoInstagram } from "react-icons/io5";
 import { TiSocialFacebook } from "react-icons/ti";
 import { CiUser } from "react-icons/ci";
 import { IoIosSearch } from "react-icons/io";
 import { PiBagLight } from "react-icons/pi";
-import Cart from './Cart';
 import { Button, Drawer } from 'antd';
 
 const Header = () => {
@@ -20,7 +19,6 @@ const Header = () => {
     };
     const [showSearch, setShowSearch] = useState(false);
     const user = JSON.parse(localStorage.getItem("user")); // Get user from localStorage
-    const fullName = user ? `${user.first_name} ${user.last_name}` : "Login"; // Set fallback text
     return (
         <>
             <div className="top-head">
