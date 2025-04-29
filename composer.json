@@ -1,0 +1,16 @@
+{
+    "name": "vibhadesign/website",
+    "description": "VibhaDesign Website",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "npm install",
+            "npm run build",
+            "chmod +x deploy.sh",
+            "./deploy.sh"
+        ]
+    }
+} 
