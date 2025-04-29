@@ -21,15 +21,24 @@ jobs:
 
       - name: Copy build to public_html
         run: |
+          # Remove existing source maps first
+          rm -f build/static/**/*.map
+          rm -f public_html/static/**/*.map
+          
+          # Copy build files
           rm -rf public_html/*
           cp -r build/* public_html/
-          # Remove source maps from public_html before committing
-          rm -f public_html/static/**/*.map
 
       - name: Commit and Push
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
+          
+          # Stage changes
           git add -f public_html
-          git commit -m "chore: update production build"
-          git push
+          
+          # Only commit if there are changes to commit
+          git diff --staged --quiet || git commit -m "chore: update production build"
+          
+          # Only push if there are commits to push
+          git diff origin/main --quiet || git push
