@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Header from '../Header';
+import { API_BASE_URL } from '../config';
 
 const Addcategory = () => {
     const [name, setName] = useState('');
@@ -19,7 +20,7 @@ const Addcategory = () => {
         };
 
         try {
-            await axios.post('http://192.168.1.9:8088/api/addcategory', payload);
+            await axios.post(`${API_BASE_URL}/api/addcategory`, payload);
             alert('Added successfully!');
             setName('');
         } catch (error) {

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify'; // import Toastify
 import 'react-toastify/dist/ReactToastify.css';
 import Header from './Header';
+import { API_BASE_URL } from './config';
 
 const Contect = () => {
     const [formData, setFormData] = useState({
@@ -80,7 +81,7 @@ const Contect = () => {
 
 
         try {
-            await axios.post('http://192.168.1.9:8088/api/contact', formData);
+            await axios.post(`${API_BASE_URL}/api/contact`, formData);
             toast.success('Thank you for contacting!');
             setFormData({
                 Contact_Name: '',

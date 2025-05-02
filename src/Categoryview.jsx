@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from './config';
 
 const Categoryview = () => {
     const [categories, setCategories] = useState([]);
     const [subcategories, setsubCategories] = useState([]);
 
     useEffect(() => {
-        axios.get('http://192.168.1.9:8088/api/getcategory')
+        axios.get(`${API_BASE_URL}/api/getcategory`)
             .then(response => {
                 if (response.data && response.data.category) {
                     setCategories(response.data.category);
@@ -16,8 +17,9 @@ const Categoryview = () => {
                 console.error('Error fetching categories:', error);
             });
     }, []);
+
     useEffect(() => {
-        axios.get('http://192.168.1.9:8088/api/getsubcategory')
+        axios.get(`${API_BASE_URL}/api/getsubcategory`)
             .then(response => {
                 if (response.data && response.data.subCategory) {
                     setsubCategories(response.data.subCategory);
