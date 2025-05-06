@@ -1,12 +1,13 @@
 const express = require('express');
 const multer = require('multer');
 const bodyParser = require('body-parser');
-const { executeStoredProcedure } = require('./db.js');
+const { executeStoredProcedure, executeQuery } = require('./db.js');
 const path = require('path');
 const cors = require('cors');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const bcrypt = require('bcryptjs');
 
 // Load environment variables
 dotenv.config();
@@ -17,7 +18,8 @@ const app = express();
 
 // CORS configuration
 app.use(cors({
-    origin: ['http://vvdesign.in', 'https://vvdesign.in', 'http://localhost:3000'],
+    // origin: ['http://vvdesign.in', 'https://vvdesign.in', 'http://localhost:3000'],
+    origin: ['http://vvdesign.in', 'https://vvdesign.in'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
@@ -117,17 +119,25 @@ app.get('/api/productview', async (req, res) => {
 app.post('/api/userregister', async (req, res) => {
     const { First_Name, Last_Name, Email, Password } = req.body;
     try {
-        // Check if email exists
-        const checkResults = await executeStoredProcedure('SP_GetByEmailId', [Email]);
+        // Use direct query for email check
+        const checkResults = await executeQuery('SELECT * FROM UserLogin WHERE Email = ?', [Email]);
+        console.log('Direct email check results:', checkResults);
         if (checkResults.length > 0) {
             return res.status(400).json({ message: 'Email already registered' });
         }
 
+        // Hash password before saving
+        let hashedPassword = Password;
+        if (!Password.startsWith('$2a$') && !Password.startsWith('$2b$')) {
+            hashedPassword = await bcrypt.hash(Password, 10);
+        }
+
         await executeStoredProcedure('GenerateUserLogin', [
-            First_Name, Last_Name, Email, Password
+            First_Name, Last_Name, Email, hashedPassword
         ]);
         res.json({ message: 'User added successfully' });
     } catch (err) {
+        console.error('Registration error:', err);
         res.status(500).json({ message: 'Error adding user', error: err.message });
     }
 });
@@ -136,14 +146,24 @@ app.post('/api/userregister', async (req, res) => {
 app.post("/api/userlogin", async (req, res) => {
     const { Email, Password } = req.body;
     try {
+        console.log('Login attempt:', req.body);
         const results = await executeStoredProcedure('SP_GetByEmailId', [Email]);
+        console.log('Login user lookup results:', results);
         const user = results[0];
 
         if (!user) {
             return res.status(401).json({ message: "Invalid User" });
         }
 
-        if (Password === user.Password) {
+        // Compare password using bcrypt if hash, else fallback to plain
+        let passwordMatch = false;
+        if (user.Password && (user.Password.startsWith('$2a$') || user.Password.startsWith('$2b$'))) {
+            passwordMatch = await bcrypt.compare(Password, user.Password);
+        } else {
+            passwordMatch = Password === user.Password;
+        }
+
+        if (passwordMatch) {
             const token = jwt.sign({ Email: user.Email }, privatekey, {
                 expiresIn: "1h",
             });
@@ -196,6 +216,8 @@ app.get('/api/getproducts/:categoryId/:subcategoryId', async (req, res) => {
         res.status(500).json({ message: 'Error fetching products', error: err.message });
     }
 });
+
+console.log('API is using MySQL for all endpoints');
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {

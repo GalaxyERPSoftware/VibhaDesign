@@ -8,8 +8,8 @@ const Viewproduct = ({ products = [] }) => {
     }
 
     return (
-        <div className="products-grid">
-            {products.map(product => (
+        <>
+            {products.filter(product => product && product.Product_Id).map(product => (
                 <div key={product.Product_Id} className="item">
                     <img
                         src={`${API_BASE_URL}${product.Product_Img}`}
@@ -29,7 +29,7 @@ const Viewproduct = ({ products = [] }) => {
                     </div>
                 </div>
             ))}
-        </div>
+        </>
     );
 };
 
